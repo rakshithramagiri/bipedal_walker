@@ -5,12 +5,14 @@ from collections import deque, namedtuple
 
 from model import DQ_NETWORK
 
+
 BUFFER_SIZE = int(1e6)
 LR = 5e-4
 BATCH_SIZE = 64
 TAU = 5e-3
 UPDATE_EVERY = 4
 GAMMA = 0.99
+DEVICE = 'cpu' # CPU is much faster for simple environments
 
 
 class DQN_AGENT:
