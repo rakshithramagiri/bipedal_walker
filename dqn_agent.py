@@ -3,6 +3,7 @@ import numpy as np
 import random
 from collections import deque, namedtuple
 
+from model import DQ_NETWORK
 
 BUFFER_SIZE = int(1e6)
 LR = 5e-4
