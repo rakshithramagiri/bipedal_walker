@@ -61,10 +61,12 @@ class DQN_AGENT:
         loss.backward()
         self.optimizer.step()
 
+        self.target_network_update()
 
 
     def target_network_update(self):
-        pass
+        for target_params, local_params in zip(self.target_network.parameters(), self.learning_network.parameters()):
+            target_params.data.copy_(TAU*local_params.data + (1-TAU)*target_params.data)
 
 
 
