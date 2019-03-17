@@ -40,9 +40,17 @@ class DQN_AGENT:
             self.learn(experiences)
 
 
+    def act(self, state, eps):
+        state = torch.from_numpy(state).float().to(DEVICE)
+        self.learning_network.eval()
+        with torch.no_grad():
+            action_values = self.learning_network(state)
+        self.learning_network.train()
 
-    def act(self):
-        pass
+        if random.random() > eps:
+            return action_values.numpy()
+        return np.random.choice(np.linspace(-1, 1, 100), size=4)
+
 
     def learn(self):
         pass
