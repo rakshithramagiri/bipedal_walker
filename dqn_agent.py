@@ -86,7 +86,14 @@ class REPLAY_MEMORY:
 
 
     def sample(self):
-        pass
+        samples = random.choice(self.memory, k=self.batch_size)
+        states = torch.from_numpy(np.vstack([e.state for e in samples])).float().to(DEVICE)
+        actions = torch.from_numpy(np.vstack([e.action for e in samples])).float().to(DEVICE)
+        next_states = torch.from_numpy(np.vstack([e.next_state for e in samples])).float().to(DEVICE)
+        rewards = torch.from_numpy(np.vstack([e.reward for e in samples])).float().to(DEVICE)
+        dones = torch.from_numpy(np.vstack([e.done for e in samples]).astype(np.uint8)).float().to(DEVICE)
+        return (states, actions, next_states, rewards, dones)
+
 
     def __len__(self):
         return len(self.memory)
