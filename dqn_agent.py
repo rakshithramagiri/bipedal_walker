@@ -71,8 +71,15 @@ class DQN_AGENT:
 
 
 class REPLAY_MEMORY:
-    def __init__(self):
-        pass
+    def __init__(self, buffer_size, batch_size, seed):
+        self.buffer_size = buffer_size
+        self.batch_size = batch_size
+        self.seed = random.seed(seed)
+
+        self.memory = deque(maxlen=self.buffer_size)
+        self.experience = namedtuple('Experience', ['state', 'action', 'next_state', 'reward', 'done'])
+
+
     def add(self, state, action, next_state, reward, done):
         experience = self.experience(state, action, next_state, reward, done)
         self.memory.append(experience)
