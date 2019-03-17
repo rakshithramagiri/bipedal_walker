@@ -73,9 +73,10 @@ class DQN_AGENT:
 class REPLAY_MEMORY:
     def __init__(self):
         pass
+    def add(self, state, action, next_state, reward, done):
+        experience = self.experience(state, action, next_state, reward, done)
+        self.memory.append(experience)
 
-    def add(self):
-        pass
 
     def sample(self):
         pass
