@@ -16,16 +16,12 @@ DEVICE = 'cpu' # CPU is much faster for simple environments
 
 
 class DQN_AGENT:
-    def __init__(self):
-        pass
     def __init__(self, state_size, action_size, seed):
         self.state_size = state_size
         self.action_size = action_size
         self.seed = random.seed(seed)
         self.ts = 0
 
-    def step(self):
-        pass
         self.learning_network = DQ_NETWORK(self.state_size, self.action_size, seed).to(DEVICE)
         self.target_network = DQ_NETWORK(self.state_size, self.action_size, seed).to(DEVICE)
         self.replay_memory = REPLAY_MEMORY(BUFFER_SIZE, BATCH_SIZE)
@@ -55,8 +51,10 @@ class DQN_AGENT:
     def learn(self):
         pass
 
+
     def target_network_update(self):
         pass
+
 
 
 class REPLAY_MEMORY:
