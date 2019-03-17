@@ -50,8 +50,17 @@ class DQN_AGENT:
         return np.random.choice(np.linspace(-1, 1, 100), size=4)
 
 
-    def learn(self):
-        pass
+    def learn(self, experiences):
+        states, actions, next_states, rewards, dones = experiences
+        targets = self.target_network(torch.from_numpy(next_states))
+        targets = rewards + (GAMMA*targets*(1-dones))
+        outputs = self.learning_network(torch.from_numpy(states))
+
+        loss = self.critertion(outputs, targets)
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
+
 
 
     def target_network_update(self):
