@@ -26,6 +26,20 @@ class DQN_AGENT:
 
     def step(self):
         pass
+        self.learning_network = DQ_NETWORK(self.state_size, self.action_size, seed).to(DEVICE)
+        self.target_network = DQ_NETWORK(self.state_size, self.action_size, seed).to(DEVICE)
+        self.replay_memory = REPLAY_MEMORY(BUFFER_SIZE, BATCH_SIZE)
+
+
+    def step(self, state, action, next_state, reward, done):
+        self.replay_memory.add(state, action, next_state, reward, done)
+        self.ts += 1
+
+        if self.ts % UPDATE_EVERY == 0:
+            experiences = self.replay_memory.sample()
+            self.learn(experiences)
+
+
 
     def act(self):
         pass
