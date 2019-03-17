@@ -21,6 +21,9 @@ class DQ_NETWORK(nn.Module):
             nn.Linear(self.hidden_size, self.action_size),
         )
 
+        self.tanh = nn.Tanh()
+
     def forward(self, state):
         output = self.fc(state)
+        output = self.tanh(output)
         return output
