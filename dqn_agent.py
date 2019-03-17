@@ -33,7 +33,7 @@ class DQN_AGENT:
         self.replay_memory.add(state, action, next_state, reward, done)
         self.ts += 1
 
-        if self.ts % UPDATE_EVERY == 0:
+        if self.ts % UPDATE_EVERY == 0 and len(self.replay_memory) > BATCH_SIZE:
             experiences = self.replay_memory.sample()
             self.learn(experiences)
 
