@@ -7,9 +7,9 @@ from model import DQ_NETWORK
 
 
 BUFFER_SIZE = int(1e6)
-LR = 5e-4
+LR = 5e-2
 BATCH_SIZE = 64
-TAU = 5e-3
+TAU = 1e-3
 UPDATE_EVERY = 4
 GAMMA = 0.99
 DEVICE = 'cpu' # CPU is much faster for simple environments
@@ -26,7 +26,7 @@ class DQN_AGENT:
         self.target_network = DQ_NETWORK(self.state_size, self.action_size, seed).to(DEVICE)
         self.replay_memory = REPLAY_MEMORY(BUFFER_SIZE, BATCH_SIZE, seed)
 
-        self.critertion = nn.MSELoss()
+        self.critertion = torch.nn.MSELoss()
         self.optimizer = torch.optim.Adam(self.learning_network.parameters(), lr=LR)
 
     def step(self, state, action, next_state, reward, done):
@@ -52,9 +52,9 @@ class DQN_AGENT:
 
     def learn(self, experiences):
         states, actions, next_states, rewards, dones = experiences
-        targets = self.target_network(torch.from_numpy(next_states))
+        targets = self.target_network(next_states)
         targets = rewards + (GAMMA*targets*(1-dones))
-        outputs = self.learning_network(torch.from_numpy(states))
+        outputs = self.learning_network(states)
 
         loss = self.critertion(outputs, targets)
         self.optimizer.zero_grad()
@@ -86,7 +86,7 @@ class REPLAY_MEMORY:
 
 
     def sample(self):
-        samples = random.choice(self.memory, k=self.batch_size)
+        samples = random.choices(self.memory, k=self.batch_size)
         states = torch.from_numpy(np.vstack([e.state for e in samples])).float().to(DEVICE)
         actions = torch.from_numpy(np.vstack([e.action for e in samples])).float().to(DEVICE)
         next_states = torch.from_numpy(np.vstack([e.next_state for e in samples])).float().to(DEVICE)

@@ -8,7 +8,7 @@ class DQ_NETWORK(nn.Module):
 
         self.state_size = state_size
         self.action_size = action_size
-        self.hidden_size = hidden_size
+        self.hidden_size = hidden
         torch.manual_seed(seed)
 
         self.fc = nn.Sequential(
